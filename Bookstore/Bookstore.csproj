@@ -44,6 +44,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.2.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -86,10 +101,66 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Core\Implementations\DatabaseContext.cs" />
+    <Compile Include="Core\Implementations\UnitOfWork.cs" />
+    <Compile Include="Core\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Entities\Implementations\AuditableEntity.cs" />
+    <Compile Include="Entities\Implementations\Author.cs" />
+    <Compile Include="Entities\Implementations\BaseEntity.cs" />
+    <Compile Include="Entities\Implementations\Book.cs" />
+    <Compile Include="Entities\Implementations\Category.cs" />
+    <Compile Include="Entities\Interfaces\IAuditableEntity.cs" />
+    <Compile Include="Entities\Interfaces\ISoftDeletable.cs" />
+    <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExistingAuthor.cs" />
+    <Compile Include="Helpers\ExistingCategory.cs" />
+    <Compile Include="Helpers\NewAuthor.cs" />
+    <Compile Include="Helpers\NewCategory.cs" />
+    <Compile Include="Helpers\PagedList.cs" />
+    <Compile Include="Helpers\PaginationInfo.cs" />
+    <Compile Include="Helpers\PaginationQuery.cs" />
+    <Compile Include="Model\BaseDto\BaseAuthorDto.cs" />
+    <Compile Include="Model\BaseDto\BaseBookDto.cs" />
+    <Compile Include="Model\BaseDto\BaseCategoryDto.cs" />
+    <Compile Include="Model\BaseDto\BaseModel.cs" />
+    <Compile Include="Model\CreateDto\Author.cs" />
+    <Compile Include="Model\CreateDto\Book.cs" />
+    <Compile Include="Model\CreateDto\Category.cs" />
+    <Compile Include="Model\ResponseDto\Author.cs" />
+    <Compile Include="Model\ResponseDto\Base.cs" />
+    <Compile Include="Model\ResponseDto\Book.cs" />
+    <Compile Include="Model\ResponseDto\Category.cs" />
+    <Compile Include="Model\UpdateDto\Author.cs" />
+    <Compile Include="Model\UpdateDto\Book.cs" />
+    <Compile Include="Model\UpdateDto\Category.cs" />
+    <Compile Include="Modules\AutoMapperModule.cs" />
+    <Compile Include="Modules\EFModule.cs" />
+    <Compile Include="Modules\RepositoryModule.cs" />
+    <Compile Include="Modules\ServiceModule.cs" />
+    <Compile Include="Profiles\CreateDtoToEntityMappingProfile.cs" />
+    <Compile Include="Profiles\EntityToResponseMappingProfile.cs" />
+    <Compile Include="Profiles\UpdateDtoToEntityMappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Implementations\AuthorRepository.cs" />
+    <Compile Include="Repository\Implementations\BookRepository.cs" />
+    <Compile Include="Repository\Implementations\CategoryRepository.cs" />
+    <Compile Include="Repository\Implementations\GenericRepository.cs" />
+    <Compile Include="Repository\Interfaces\IAuthorRepository.cs" />
+    <Compile Include="Repository\Interfaces\IBookRepository.cs" />
+    <Compile Include="Repository\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Repository\Interfaces\IGenericRepository.cs" />
+    <Compile Include="Service\Implementations\AuthorService.cs" />
+    <Compile Include="Service\Implementations\BookService.cs" />
+    <Compile Include="Service\Implementations\CategoryService.cs" />
+    <Compile Include="Service\Implementations\EntityService.cs" />
+    <Compile Include="Service\Interfaces\IAuthorService.cs" />
+    <Compile Include="Service\Interfaces\IBookService.cs" />
+    <Compile Include="Service\Interfaces\ICategoryService.cs" />
+    <Compile Include="Service\Interfaces\IEntityService.cs" />
+    <Compile Include="Service\Interfaces\IService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
