@@ -100,6 +100,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\IocConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Core\Implementations\DatabaseContext.cs" />
     <Compile Include="Core\Implementations\UnitOfWork.cs" />
