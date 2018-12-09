@@ -102,6 +102,11 @@
   <ItemGroup>
     <Compile Include="App_Start\IocConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
+    <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\BookController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Core\Implementations\DatabaseContext.cs" />
     <Compile Include="Core\Implementations\UnitOfWork.cs" />
     <Compile Include="Core\Interfaces\IUnitOfWork.cs" />
@@ -174,7 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
