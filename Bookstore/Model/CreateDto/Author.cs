@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bookstore.Model.BaseDto;
 using Bookstore.Service.Interfaces;
+using System.Web.Http;
 
 namespace Bookstore.Model.CreateDto
 {
@@ -10,7 +11,8 @@ namespace Bookstore.Model.CreateDto
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var service = (IAuthorService)validationContext.GetService(typeof(IAuthorService));
+            var scope = GlobalConfiguration.Configuration.DependencyResolver.BeginScope();
+            IAuthorService service = scope.GetService(typeof(IAuthorService)) as IAuthorService;
             var validationResults = new List<ValidationResult>();
 
             var author = service.FindBy(x => x.FullName == FullName);

@@ -42,14 +42,14 @@ namespace Bookstore.Model.BaseDto
         public IEnumerable<NewAuthor> NewAuthors { get; set; }
 
 
-        protected List<ValidationResult> ValidateAuthors(List<ValidationResult> validationResults, IAuthorService service)
+        public List<ValidationResult> ValidateAuthors(List<ValidationResult> validationResults, IAuthorService service)
         {
             validationResults = ValidateNewAuthors(validationResults, service);
             validationResults = ValidateExistingAuthors(validationResults, service);
             return validationResults;
         }
 
-        protected List<ValidationResult> ValidateNewAuthors(List<ValidationResult> validationResults, IAuthorService service)
+        public List<ValidationResult> ValidateNewAuthors(List<ValidationResult> validationResults, IAuthorService service)
         {
             foreach (var author in NewAuthors)
             {
@@ -63,7 +63,7 @@ namespace Bookstore.Model.BaseDto
             return validationResults;
         }
 
-        protected List<ValidationResult> ValidateExistingAuthors(List<ValidationResult> validationResults, IAuthorService service)
+        public List<ValidationResult> ValidateExistingAuthors(List<ValidationResult> validationResults, IAuthorService service)
         {
             foreach (var author in ExistingAuthors)
             {
@@ -77,7 +77,7 @@ namespace Bookstore.Model.BaseDto
             return validationResults;
         }
 
-        protected List<ValidationResult> ValidateStatus(List<ValidationResult> validationResults)
+        public List<ValidationResult> ValidateStatus(List<ValidationResult> validationResults)
         {
             var statusList = new List<string> { "Published", "Unpublished" };
             if (!statusList.Contains(Status))
@@ -88,14 +88,14 @@ namespace Bookstore.Model.BaseDto
             return validationResults;
         }
 
-        protected List<ValidationResult> ValidateCategories(List<ValidationResult> validationResults, ICategoryService service)
+        public List<ValidationResult> ValidateCategories(List<ValidationResult> validationResults, ICategoryService service)
         {
             validationResults = ValidateNewCategories(validationResults, service);
             validationResults = ValidateExistingCategories(validationResults, service);
             return validationResults;
         }
 
-        protected List<ValidationResult> ValidateNewCategories(List<ValidationResult> validationResults, ICategoryService service)
+        public List<ValidationResult> ValidateNewCategories(List<ValidationResult> validationResults, ICategoryService service)
         {
             foreach (var category in NewCategories)
             {
@@ -109,7 +109,7 @@ namespace Bookstore.Model.BaseDto
             return validationResults;
         }
 
-        protected List<ValidationResult> ValidateExistingCategories(List<ValidationResult> validationResults, ICategoryService service)
+        public List<ValidationResult> ValidateExistingCategories(List<ValidationResult> validationResults, ICategoryService service)
         {
             foreach (var category in ExistingCategories)
             {
@@ -124,7 +124,7 @@ namespace Bookstore.Model.BaseDto
         }
 
 
-        protected void AssertLongDescription()
+        public void AssertLongDescription()
         {
             if (LongDescription == string.Empty) LongDescription = null;
         }

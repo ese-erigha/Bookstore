@@ -8,11 +8,12 @@ using Bookstore.Helpers;
 using Bookstore.Service.Interfaces;
 using ResponseDto = Bookstore.Model.ResponseDto;
 using Bookstore.Model.BaseDto;
+using Entity = Bookstore.Entities.Implementations;
 
 namespace Bookstore.Controllers
 {
 
-    public class BaseApiController<E,R> : ApiController where E: Entities.Implementations.BaseEntity where R : ResponseDto.Base
+    public class BaseApiController<E,R> : ApiController where E: Entity.BaseEntity where R : ResponseDto.Base
     {
 
         readonly IMapper _mapper;
@@ -46,11 +47,7 @@ namespace Bookstore.Controllers
 
             var modelToReturn = _mapper.Map<R>(entity);
 
-            return CreatedAtRoute(
-                "GetSingleModel",
-                new { id = entity.Id },
-                modelToReturn
-            );
+            return Content(HttpStatusCode.Created,modelToReturn);
         }
 
 
@@ -70,24 +67,20 @@ namespace Bookstore.Controllers
         }
 
         //Update a Record
-        public async Task<IHttpActionResult> Update<V>(long id, V viewModel) where V : BaseModel
+        public async Task<IHttpActionResult> Update(E entity)
         {
-            if (viewModel == null)
-            {
-                return BadRequest();
-            }
-            var entity = await _service.GetByIdAsync(id);
-
-            if (entity == null)
-            {
-
-                return NotFound();
-            }
-            _mapper.Map<V, E>(viewModel, entity);
-            entity.Id = id;
+          
             _service.Update(entity);
             var state = await _service.Commit();
-            return !state ? Content(HttpStatusCode.InternalServerError, "A problem occurred while handling your request") : Content(HttpStatusCode.NoContent, "Update successful");
+
+            if (!state)
+            {
+                return Content(HttpStatusCode.InternalServerError, "A problem occurred while handling your request");
+            }
+            else
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+            }
         }
 
         //Delete a record

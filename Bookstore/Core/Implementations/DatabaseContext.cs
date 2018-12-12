@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bookstore.Entities.Implementations;
 using Bookstore.Entities.Interfaces;
+using EntityFramework.DynamicFilters;
 
 namespace Bookstore.Core
 {
@@ -13,6 +14,8 @@ namespace Bookstore.Core
         public DbSet<Author> Authors { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
+
+        public string IsDeletedKey = "IsDeleted";
 
         public DatabaseContext() : base("BookstoreContext")
         {
@@ -40,7 +43,10 @@ namespace Bookstore.Core
                             ab.ToTable("BookCategory");
                         });
 
+            modelBuilder.Filter(IsDeletedKey, (IAuditableEntity d) => d.IsDeleted, false);
+
             base.OnModelCreating(modelBuilder);
+
         }
 
 

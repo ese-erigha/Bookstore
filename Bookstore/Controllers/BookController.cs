@@ -9,6 +9,7 @@ using Entity = Bookstore.Entities.Implementations;
 using Bookstore.Helpers;
 using System.Net;
 using System.Collections.Generic;
+using Bookstore.Filters;
 
 namespace Bookstore.Controllers
 {
@@ -28,6 +29,7 @@ namespace Bookstore.Controllers
             _authorService = authorService;
         }
 
+        [ValidateModel]
         [Route("")]
         [HttpPost]
         public async Task<IHttpActionResult> CreateBook([FromBody] CreateDto.Book viewModel)
@@ -75,6 +77,7 @@ namespace Bookstore.Controllers
 
         }
 
+        [ValidateModel]
         [Route("{id:long}")]
         [HttpPut]
         public async Task<IHttpActionResult> UpdateBook(long id, [FromBody] UpdateDto.Book viewModel)

@@ -1,10 +1,13 @@
 ﻿using ResponseDto = Bookstore.Model.ResponseDto;
 using CreateDto = Bookstore.Model.CreateDto;
+using UpdateDto = Bookstore.Model.UpdateDto;
 using AutoMapper;
 using Bookstore.Service.Interfaces;
 using System.Web.Http;
 using System.Threading.Tasks;
 using Entity = Bookstore.Entities.Implementations;
+using Bookstore.Filters;
+using System.Net;
 
 namespace Bookstore.Controllers
 {
@@ -21,6 +24,7 @@ namespace Bookstore.Controllers
             _mapper = mapper;
         }
 
+        [ValidateModel]
         [Route("")]
         [HttpPost]
         public async Task<IHttpActionResult> CreateAuthor([FromBody] CreateDto.Author viewModel)
@@ -28,11 +32,19 @@ namespace Bookstore.Controllers
             return await Create(viewModel);
         }
 
+        [ValidateModel]
         [Route("{id:long}")]
         [HttpPut]
-        public async Task<IHttpActionResult> UpdateAuthor(long id, [FromBody] CreateDto.Author viewModel)
+        public async Task<IHttpActionResult> UpdateAuthor(long id, [FromBody] UpdateDto.Author viewModel)
         {
-            return await Update(id, viewModel);
+            var entity = await _service.GetByIdAsync(id);
+
+            if (entity == null)
+            {
+                return Content(HttpStatusCode.BadRequest, "Item does not exist");
+            }
+            _mapper.Map(viewModel, entity);
+            return await Update(entity);
         }
     }
 }

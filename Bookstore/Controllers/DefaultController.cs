@@ -3,7 +3,7 @@ using System.Web.Http;
 
 namespace Bookstore.Controllers
 {
-    [RoutePrefix("api/default")]
+    [RoutePrefix("api/v1/default")]
     public class DefaultController: ApiController
     {
         [Route("")]

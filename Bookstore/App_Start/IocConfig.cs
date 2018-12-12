@@ -30,10 +30,10 @@ namespace Bookstore.App_Start
             builder.RegisterModule(new ServiceModule());
             builder.RegisterModule(new AutoMapperModule());
 
-
             var container = builder.Build();
             var resolver = new AutofacWebApiDependencyResolver(container);
             config.DependencyResolver = resolver;
         }
     }
 }
+

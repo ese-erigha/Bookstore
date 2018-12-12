@@ -64,7 +64,9 @@ namespace Bookstore.Repository.Implementations
             var queryAble = _dbSet.AsQueryable();
             var count = queryAble.Count();
 
-            var items = queryAble.Skip((paginationInfo.PageNumber - 1) * paginationInfo.PageSize)
+            var items = queryAble
+                         .OrderBy(x => x.UpdatedDate)
+                         .Skip((paginationInfo.PageNumber - 1) * paginationInfo.PageSize)
                          .Take(paginationInfo.PageSize)
                          .ToList();
 

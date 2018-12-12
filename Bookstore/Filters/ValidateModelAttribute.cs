@@ -14,6 +14,8 @@ namespace Bookstore.Filters
                 actionContext.Response = actionContext.Request.CreateErrorResponse(
                     HttpStatusCode.BadRequest, actionContext.ModelState);
             }
+
+            base.OnActionExecuting(actionContext);
         }
     }
 }
