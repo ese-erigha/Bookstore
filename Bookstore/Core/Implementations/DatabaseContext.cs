@@ -7,7 +7,7 @@ using Bookstore.Entities.Implementations;
 using Bookstore.Entities.Interfaces;
 using EntityFramework.DynamicFilters;
 
-namespace Bookstore.Core
+namespace Bookstore.Core.Implementations
 {
     public class DatabaseContext: DbContext
     {

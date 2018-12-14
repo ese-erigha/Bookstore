@@ -17,6 +17,7 @@ namespace Bookstore.Controllers
     [RoutePrefix("api/v1/book")]
     public class BookController: BaseApiController<Entity.Book, ResponseDto.Book>
     {
+        //C:\Users\Eseoghene Erigha\Documents\SQL Server Management Studio\DAC Packages\Bookstore.dacpac
         readonly IMapper _mapper;
         readonly IBookService _service;
         readonly ICategoryService _categoryService;
