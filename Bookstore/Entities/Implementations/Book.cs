@@ -19,8 +19,8 @@ namespace Bookstore.Entities.Implementations
 
         public string Status { get; set; }
 
-        public virtual ICollection<Author> Authors { get; set; }
+        public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
     }
 }

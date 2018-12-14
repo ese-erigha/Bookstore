@@ -15,7 +15,7 @@ namespace Bookstore.Repository.Interfaces
         Task<T> GetByIdAsync(long id);
         T Add(T entity);
         T Delete(T entity);
-        void Edit(T entity);
+        void Update(T entity);
         void Save();
         PaginationQuery<T> Paginate(PaginationInfo paginationInfo);
     }

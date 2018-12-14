@@ -37,7 +37,7 @@ namespace Bookstore.Service.Implementations
         public virtual void Update(T entity)
         {
             if (entity == null) throw new ArgumentNullException("entity");
-            _repository.Edit(entity);
+            _repository.Update(entity);
 
         }
 

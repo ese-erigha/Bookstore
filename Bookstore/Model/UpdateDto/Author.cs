@@ -23,7 +23,6 @@ namespace Bookstore.Model.UpdateDto
             }
 
             return validationResults;
-
         }
     }
 }

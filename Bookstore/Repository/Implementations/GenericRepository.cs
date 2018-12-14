@@ -44,7 +44,7 @@ namespace Bookstore.Repository.Implementations
             return _dbSet.Remove(entity);
         }
 
-        public virtual void Edit(T entity)
+        public virtual void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }

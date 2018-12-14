@@ -9,6 +9,7 @@ using Entity = Bookstore.Entities.Implementations;
 using Bookstore.Helpers;
 using System.Net;
 using System.Collections.Generic;
+using System.Linq;
 using Bookstore.Filters;
 
 namespace Bookstore.Controllers
@@ -60,6 +61,8 @@ namespace Bookstore.Controllers
                 bookEntity.Authors.Add(author);
             }
 
+            _service.Create(bookEntity);
+
             var state = await _service.Commit();
 
             if (!state)
@@ -69,11 +72,7 @@ namespace Bookstore.Controllers
 
             var modelToReturn = _mapper.Map<ResponseDto.Book>(bookEntity);
 
-            return CreatedAtRoute(
-                routeName: "GetSingleModel",
-                routeValues: new { id = modelToReturn.Id },
-                content: modelToReturn
-            );
+            return Content(HttpStatusCode.Created, modelToReturn);
 
         }
 
@@ -82,7 +81,7 @@ namespace Bookstore.Controllers
         [HttpPut]
         public async Task<IHttpActionResult> UpdateBook(long id, [FromBody] UpdateDto.Book viewModel)
         {
-            Entity.Book bookEntity = await _service.GetByIdAsync(id);
+            var bookEntity = await _service.GetByIdAsync(id);
 
             if(bookEntity == null)
             {
@@ -91,36 +90,23 @@ namespace Bookstore.Controllers
 
             _mapper.Map(viewModel,bookEntity); //Updates Entity with ViewModel attributes
 
-            ICollection<Entity.Category> categories = new List<Entity.Category>();
-            ICollection<Entity.Author> authors = new List<Entity.Author>();
+            //Delete every author in book entity that does not exist in existingAuthors Array
+            bookEntity.Authors.ToList().RemoveAll(author => !viewModel.ExistingAuthors.Select(a => a.Id).Contains(author.Id));
 
-            foreach (NewCategory newCategory in viewModel.NewCategories)
-            {
-                var category = new Entity.Category { Name = newCategory.Name };
-                categories.Add(category);
-            }
+            //Delete every category in book entity that does not exist in existingCategories Array
+            bookEntity.Categories.ToList().RemoveAll(category =>!viewModel.ExistingCategories.Select(c => c.Id).Contains(category.Id));
 
-            foreach (ExistingCategory existingCategory in viewModel.ExistingCategories)
-            {
-                Entity.Category category = await _categoryService.GetByIdAsync(existingCategory.Id);
-                categories.Add(category);
-            }
+            //Loop through newAuthors array and return items that do not exist in BaseEntity Authors array
+            var newAuthors = viewModel.NewAuthors.ToList().Where(author => !bookEntity.Authors.Select(ba => ba.FullName).Contains(author.FullName)).ToList();
+            
+            //Same as above
+            var newCategories = viewModel.NewCategories.ToList().Where(category => !bookEntity.Categories.Select(bc => bc.Name).Contains(category.Name)).ToList();
 
-            bookEntity.Categories = categories;
+            newCategories.ForEach(category => bookEntity.Categories.Add(new Entity.Category { Name = category.Name }));
 
-            foreach (NewAuthor newAuthor in viewModel.NewAuthors)
-            {
-                var author = new Entity.Author { FullName = newAuthor.FullName };
-                authors.Add(author);
-            }
+            newAuthors.ForEach(author => bookEntity.Authors.Add(new Entity.Author { FullName = author.FullName }));
 
-            foreach (ExistingAuthor existingAuthor in viewModel.ExistingAuthors)
-            {
-                Entity.Author author = await _authorService.GetByIdAsync(existingAuthor.Id);
-                authors.Add(author);
-            }
-
-            bookEntity.Authors = authors;
+            _service.Update(bookEntity);
 
             var state = await _service.Commit();
 
@@ -129,7 +115,7 @@ namespace Bookstore.Controllers
                 return Content(HttpStatusCode.InternalServerError, "A problem occurred while handling your request");
             }
 
-            return Content(HttpStatusCode.NoContent, "Update was successful");
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
