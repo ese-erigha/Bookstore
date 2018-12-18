@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using Bookstore.Model.BaseDto;
 using Bookstore.Service.Interfaces;
 using System.Web.Http;
+using Autofac.Integration.WebApi;
 
 namespace Bookstore.Model.CreateDto
 {

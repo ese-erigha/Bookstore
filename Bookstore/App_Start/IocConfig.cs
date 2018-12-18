@@ -8,16 +8,17 @@ using System.Reflection;
 using System.Web;
 using System.Web.Http;
 
-namespace Bookstore.App_Start
+namespace Bookstore
 {
     public static class IocConfig
     {
-        public static void Register()
+        public static void Register(HttpConfiguration config)
         {
             var builder = new ContainerBuilder();
 
             // Get your HttpConfiguration.
-            var config = GlobalConfiguration.Configuration;
+            //
+            //var config = GlobalConfiguration.Configuration;
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 

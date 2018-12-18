@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Bookstore.Model.BaseDto;
 using Bookstore.Service.Interfaces;
 using System.Web.Http;
+using System.Linq;
 
 namespace Bookstore.Model.CreateDto
 {
@@ -18,7 +19,7 @@ namespace Bookstore.Model.CreateDto
             var validationResults = new List<ValidationResult>();
 
             var categories = _categoryService.FindBy(x => x.Name == Name);
-            if (categories.Count > 0)
+            if (categories.Any())
             {
                 validationResults.Add(new ValidationResult("Category already exist", new string[] { "Name" }));
             }

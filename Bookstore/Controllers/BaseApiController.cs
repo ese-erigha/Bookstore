@@ -16,8 +16,8 @@ namespace Bookstore.Controllers
     public class BaseApiController<E,R> : ApiController where E: Entity.BaseEntity where R : ResponseDto.Base
     {
 
-        readonly IMapper _mapper;
-        readonly IEntityService<E> _service;
+        private readonly IMapper _mapper;
+        private readonly IEntityService<E> _service;
 
         public BaseApiController(IMapper mapper, IEntityService<E> service)
         {
@@ -25,13 +25,18 @@ namespace Bookstore.Controllers
             _mapper = mapper;
         }
 
+        public BaseApiController()
+        {
+
+        }
+        
+        [Authorize(Roles ="User")]
         [Route("")]
         [HttpGet]
         public IHttpActionResult GetAll([FromUri]PaginationInfo paginationInfo)
         {
             PagedList<R> result = Paginate(_service.Paginate(paginationInfo), paginationInfo);
             return Ok(result);
-            //return Content(HttpStatusCode.OK, "Hello From Base Controller");
         }
 
         public async Task<IHttpActionResult> Create<V>(V viewModel) where V : BaseModel

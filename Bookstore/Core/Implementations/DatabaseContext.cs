@@ -1,37 +1,53 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Bookstore.Entities.Implementations;
 using Bookstore.Entities.Interfaces;
 using EntityFramework.DynamicFilters;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Bookstore.Migrations;
 
 namespace Bookstore.Core.Implementations
 {
-    public class DatabaseContext: DbContext
+    public class DatabaseContext: IdentityDbContext<ApplicationUser, RoleIntPk, long,UserLoginIntPk, UserRoleIntPk, UserClaimIntPk>
     {
         public DbSet<Author> Authors { get; set; }
+
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<Book> Books { get; set; }
 
         public string IsDeletedKey = "IsDeleted";
 
         public DatabaseContext() : base("BookstoreContext")
         {
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext,Configuration>());
+            Configuration.ProxyCreationEnabled = false;
+           
+        }
+
+        //Will be called from Owin Startup Class
+        public static DatabaseContext Create()
+        {
+            return new DatabaseContext();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Book>()
-                        .HasMany<Author>(b => b.Authors)
-                        .WithMany(a => a.Books)
-                        .Map(ab =>
-                        {
-                            ab.MapLeftKey("BookRefId");
-                            ab.MapRightKey("AuthorRefId");
-                            ab.ToTable("BookAuthor");
-                        });
+                .HasMany<Author>(b => b.Authors)
+                .WithMany(a => a.Books)
+                .Map(ab =>
+                {
+                    ab.MapLeftKey("BookRefId");
+                    ab.MapRightKey("AuthorRefId");
+                    ab.ToTable("BookAuthor");
+                });
+
+      
 
             modelBuilder.Entity<Book>()
                         .HasMany<Category>(b => b.Categories)

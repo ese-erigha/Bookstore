@@ -12,6 +12,8 @@ namespace Bookstore.Profiles
             CreateMap<CreateDto.Category, Entity.Category>();
             CreateMap<CreateDto.Author, Entity.Author>();
             CreateMap<CreateDto.Book, Entity.Book>();
+            CreateMap<CreateDto.User, Entity.ApplicationUser>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
         }
     }
 }

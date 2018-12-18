@@ -23,6 +23,11 @@ namespace Bookstore.Controllers
             _mapper = mapper;
         }
 
+        public CategoryController() :base()
+        {
+
+        }
+
         
         [Route("")]
         [HttpPost]
