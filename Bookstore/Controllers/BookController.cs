@@ -102,10 +102,10 @@ namespace Bookstore.Controllers
             bookEntity.Categories.ToList().RemoveAll(category =>!viewModel.ExistingCategories.Select(c => c.Id).Contains(category.Id));
 
             //Loop through newAuthors array and return items that do not exist in BaseEntity Authors array
-            var newAuthors = viewModel.NewAuthors.ToList().Where(author => !bookEntity.Authors.Select(ba => ba.FullName).Contains(author.FullName)).ToList();
+            var newAuthors = viewModel.NewAuthors.Where(author => !bookEntity.Authors.Select(ba => ba.FullName).Contains(author.FullName)).ToList();
             
             //Same as above
-            var newCategories = viewModel.NewCategories.ToList().Where(category => !bookEntity.Categories.Select(bc => bc.Name).Contains(category.Name)).ToList();
+            var newCategories = viewModel.NewCategories.Where(category => !bookEntity.Categories.Select(bc => bc.Name).Contains(category.Name)).ToList();
 
             newCategories.ForEach(category => bookEntity.Categories.Add(new Entity.Category { Name = category.Name }));
 
