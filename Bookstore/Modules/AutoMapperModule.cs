@@ -5,7 +5,7 @@ using AutoMapper;
 
 namespace Bookstore.Modules
 {
-    public class AutoMapperModule: Autofac.Module
+    public class AutoMapperModule: Module
     {
         protected override void Load(ContainerBuilder builder)
         {

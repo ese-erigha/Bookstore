@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bookstore.CustomHandler;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,7 +9,9 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
+using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Routing;
+using Bookstore.CustomHandler.Interfaces;
 
 namespace Bookstore
 {
@@ -20,8 +23,6 @@ namespace Bookstore
             config.EnableCors(cors);
             config.MessageHandlers.Add(new PreflightRequestsHandler());
 
-            // Web API configuration and services
-
             // Web API routes
             config.MapHttpAttributeRoutes(new CustomDirectRouteProvider());
 
@@ -30,6 +31,10 @@ namespace Bookstore
             //config.SuppressDefaultHostAuthentication();
             //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
+            var scope = GlobalConfiguration.Configuration.DependencyResolver.BeginScope();
+            IGlobalExceptionHandler globalExceptionHandler = scope.GetService(typeof(IGlobalExceptionHandler)) as IGlobalExceptionHandler;
+
+            config.Services.Replace(typeof(IExceptionHandler), globalExceptionHandler);
 
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
