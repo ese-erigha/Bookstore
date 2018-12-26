@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,17 +7,17 @@ using Bookstore.Entities.Implementations;
 using Bookstore.Entities.Interfaces;
 using EntityFramework.DynamicFilters;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Bookstore.Migrations;
+
 
 namespace Bookstore.Core.Implementations
 {
     public class DatabaseContext: IdentityDbContext<ApplicationUser, RoleIntPk, long,UserLoginIntPk, UserRoleIntPk, UserClaimIntPk>
     {
-        public DbSet<Author> Authors { get; set; }
+        public virtual DbSet<Author> Authors { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
 
-        public DbSet<Book> Books { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
 
         public string IsDeletedKey = "IsDeleted";
 

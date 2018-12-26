@@ -6,7 +6,7 @@ namespace Bookstore.Helpers
 {
     public class PaginationQuery<TDest> where TDest : IAuditableEntity
     {
-        public IList<TDest> Items { get; set; } = new List<TDest>();
+        public List<TDest> Items { get; set; } = new List<TDest>();
 
         public int Count { get; set; }
     }
