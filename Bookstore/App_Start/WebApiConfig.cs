@@ -11,7 +11,10 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Routing;
+using Bookstore.CustomHandler.Implementations;
 using Bookstore.CustomHandler.Interfaces;
+using Microsoft.Web.Http;
+using Microsoft.Web.Http.Versioning;
 
 namespace Bookstore
 {
@@ -23,6 +26,16 @@ namespace Bookstore
             config.EnableCors(cors);
             config.MessageHandlers.Add(new PreflightRequestsHandler());
 
+            config.AddApiVersioning(o =>
+                {
+                    o.ReportApiVersions = true;
+                    o.AssumeDefaultVersionWhenUnspecified = true;
+                    o.DefaultApiVersion = new ApiVersion(1, 0);
+                    o.ApiVersionReader = new HeaderApiVersionReader("version");
+                    o.ApiVersionSelector = new CurrentImplementationApiVersionSelector(o);
+                }
+            );
+
             // Web API routes
             config.MapHttpAttributeRoutes(new CustomDirectRouteProvider());
 
@@ -33,19 +46,24 @@ namespace Bookstore
 
             var scope = GlobalConfiguration.Configuration.DependencyResolver.BeginScope();
             IGlobalExceptionHandler globalExceptionHandler = scope.GetService(typeof(IGlobalExceptionHandler)) as IGlobalExceptionHandler;
+            IUnhandledExceptionLogger unhandledExceptionLogger = scope.GetService(typeof(IUnhandledExceptionLogger)) as IUnhandledExceptionLogger;
+            RequestResponseHandler messageHandler = scope.GetService(typeof(RequestResponseHandler)) as RequestResponseHandler;
 
             config.Services.Replace(typeof(IExceptionHandler), globalExceptionHandler);
+            config.Services.Replace(typeof(IExceptionLogger),  unhandledExceptionLogger);
+
+            config.MessageHandlers.Add(messageHandler);
 
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
             json.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             //config.Formatters.Remove(config.Formatters.XmlFormatter); //Remove XML Formatting from Web API
 
-            config.Routes.MapHttpRoute(
+            /*config.Routes.MapHttpRoute(
                 "DefaultApi",
                 "api/v1/{controller}/{id}",
                 new { id = RouteParameter.Optional }
-            );
+            );*/
         }
     }
 

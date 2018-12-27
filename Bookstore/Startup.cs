@@ -45,6 +45,8 @@ namespace Bookstore
             builder.RegisterModule(new RepositoryModule());
             builder.RegisterModule(new ServiceModule());
             builder.RegisterModule(new AutoMapperModule());
+            builder.RegisterModule(new MiddlewareHandlerModule());
+
 
             //builder.RegisterType<ApplicationUserManager>().AsSelf();
             //builder.RegisterType<ApplicationRoleManager>().AsSelf();

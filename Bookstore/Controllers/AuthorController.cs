@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using Entity = Bookstore.Entities.Implementations;
 using Bookstore.Filters;
 using System.Net;
+using Microsoft.Web.Http;
 
 namespace Bookstore.Controllers
 {
+    [ApiVersion("1.0")]
     [RoutePrefix("api/v1/author")]
     public class AuthorController : BaseApiController<Entity.Author, ResponseDto.Author>
     {

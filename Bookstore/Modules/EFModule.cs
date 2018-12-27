@@ -12,10 +12,8 @@ namespace Bookstore.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterModule(new RepositoryModule());
-
             builder.RegisterType(typeof(DatabaseContext)).AsSelf().InstancePerLifetimeScope();
             builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerRequest();
-
         }
     }
 }

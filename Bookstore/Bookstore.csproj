@@ -81,6 +81,9 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.WebApi.Versioning, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Versioning.3.0.0\lib\net45\Microsoft.AspNet.WebApi.Versioning.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -192,6 +195,14 @@
     <Compile Include="Core\Implementations\DatabaseContext.cs" />
     <Compile Include="Core\Implementations\UnitOfWork.cs" />
     <Compile Include="Core\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="CustomHandler\Implementations\GlobalExceptionHandler.cs" />
+    <Compile Include="CustomHandler\Implementations\RequestResponseHandler.cs" />
+    <Compile Include="CustomHandler\Implementations\UnhandledExceptionLogger.cs" />
+    <Compile Include="CustomHandler\Interfaces\IGlobalExceptionHandler.cs" />
+    <Compile Include="CustomHandler\Interfaces\IRequestResponseHandler.cs" />
+    <Compile Include="CustomHandler\Interfaces\IUnhandledExceptionLogger.cs" />
+    <Compile Include="Entities\Implementations\ApiLog.cs" />
+    <Compile Include="Entities\Implementations\ErrorLogger.cs" />
     <Compile Include="Entities\Implementations\AuditableEntity.cs" />
     <Compile Include="Entities\Implementations\Author.cs" />
     <Compile Include="Entities\Implementations\BaseEntity.cs" />
@@ -245,6 +256,7 @@
     <Compile Include="Model\UpdateDto\Category.cs" />
     <Compile Include="Modules\AutoMapperModule.cs" />
     <Compile Include="Modules\EFModule.cs" />
+    <Compile Include="Modules\MiddlewareHandlerModule.cs" />
     <Compile Include="Modules\RepositoryModule.cs" />
     <Compile Include="Modules\ServiceModule.cs" />
     <Compile Include="Profiles\CreateDtoToEntityMappingProfile.cs" />
@@ -253,24 +265,30 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomJwtFormat.cs" />
     <Compile Include="Providers\CustomOAuthProvider.cs" />
+    <Compile Include="Repository\Implementations\ApiLoggerRepository.cs" />
     <Compile Include="Repository\Implementations\AuthorRepository.cs" />
     <Compile Include="Repository\Implementations\BookRepository.cs" />
     <Compile Include="Repository\Implementations\CategoryRepository.cs" />
+    <Compile Include="Repository\Implementations\ExceptionLoggerRepository.cs" />
     <Compile Include="Repository\Implementations\GenericRepository.cs" />
+    <Compile Include="Repository\Interfaces\IApiLoggerRepository.cs" />
     <Compile Include="Repository\Interfaces\IAuthorRepository.cs" />
     <Compile Include="Repository\Interfaces\IBookRepository.cs" />
     <Compile Include="Repository\Interfaces\ICategoryRepository.cs" />
+    <Compile Include="Repository\Interfaces\IExceptionLoggerRepository.cs" />
     <Compile Include="Repository\Interfaces\IGenericRepository.cs" />
     <Compile Include="Service\Implementations\AccountService.cs" />
     <Compile Include="Service\Implementations\AuthorService.cs" />
     <Compile Include="Service\Implementations\BookService.cs" />
     <Compile Include="Service\Implementations\CategoryService.cs" />
     <Compile Include="Service\Implementations\EntityService.cs" />
+    <Compile Include="Service\Implementations\MessageLoggerService.cs" />
     <Compile Include="Service\Interfaces\IAccountService.cs" />
     <Compile Include="Service\Interfaces\IAuthorService.cs" />
     <Compile Include="Service\Interfaces\IBookService.cs" />
     <Compile Include="Service\Interfaces\ICategoryService.cs" />
     <Compile Include="Service\Interfaces\IEntityService.cs" />
+    <Compile Include="Service\Interfaces\IMessageLoggerService.cs" />
     <Compile Include="Service\Interfaces\IService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

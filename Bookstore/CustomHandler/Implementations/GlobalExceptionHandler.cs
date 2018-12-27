@@ -12,7 +12,7 @@ using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Results;
 
 
-namespace Bookstore.CustomHandler
+namespace Bookstore.CustomHandler.Implementations
 {
     public class GlobalExceptionHandler : ExceptionHandler, IGlobalExceptionHandler
     {

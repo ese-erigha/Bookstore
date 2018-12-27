@@ -1,9 +1,5 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Bookstore.CustomHandler;
+using Bookstore.CustomHandler.Implementations;
 using Bookstore.CustomHandler.Interfaces;
 
 namespace Bookstore.Modules
@@ -15,6 +11,12 @@ namespace Bookstore.Modules
             builder.RegisterType(typeof(GlobalExceptionHandler))
                    .As(typeof(IGlobalExceptionHandler))
                    .InstancePerRequest();
+
+            builder.RegisterType(typeof(UnhandledExceptionLogger))
+                   .As(typeof(IUnhandledExceptionLogger))
+                   .InstancePerRequest();
+
+            builder.RegisterType(typeof(RequestResponseHandler)).AsSelf().InstancePerRequest();
         }
     }
 }
